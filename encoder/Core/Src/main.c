@@ -48,8 +48,8 @@ TIM_HandleTypeDef htim3;
 /* USER CODE BEGIN PV */
 volatile uint32_t tim1_cnt=0,direction,rise=0;
 volatile float freq;
-uint8_t buffer1 [] = "direito\n";
-uint8_t buffer2 [] = "esquerdo\n";
+uint8_t buffer1 [] = "UP\n";
+uint8_t buffer2 [] = "DOWN\n";
 uint16_t buffer [];
 /* USER CODE END PV */
 
@@ -99,10 +99,10 @@ int main(void)
   MX_TIM3_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Encoder_Init(&htim1, TIM_CHANNEL_ALL);
+  HAL_TIM_IC_Start_IT(&htim3,TIM_CHANNEL_1);
   /* USER CODE END 2 */
-  HAL_TIM_Encoder_Start(&htim1,TIM_CHANNEL_ALL);
-  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -112,9 +112,6 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	tim1_cnt = htim1.Instance->CNT;
 	direction = !(__HAL_TIM_IS_TIM_COUNTING_DOWN(&htim1));
-	//sprintf(buffer,"%.3f",freq);
-	//sprintf(buffer,"Brasil");
-	//CDC_Transmit_FS(buffer, strlen(buffer));
 
 	if (direction){
 		HAL_GPIO_WritePin(GPIOC, LED_Pin, GPIO_PIN_RESET);
@@ -241,6 +238,7 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 0 */
 
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_SlaveConfigTypeDef sSlaveConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_IC_InitTypeDef sConfigIC = {0};
@@ -249,12 +247,17 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
+  htim3.Init.Prescaler = 16-1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 65535;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
   {
     Error_Handler();
   }

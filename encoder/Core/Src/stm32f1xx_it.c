@@ -220,10 +220,12 @@ void USB_LP_CAN1_RX0_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
+	//rise is in uc
+	//freq in Mhz
 	rise = htim3.Instance->CCR1;
 	if (rise!=0){
 			freq = 1/(float)rise;
-
+			//freq in khz
 			freq = 1000*freq;
 	}
   /* USER CODE END TIM3_IRQn 0 */
