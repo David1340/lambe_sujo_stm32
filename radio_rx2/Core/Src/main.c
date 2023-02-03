@@ -269,7 +269,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void readData(void) {
 	nrf24_Receive(&nrfRx, rxData, PAYLOAD);
-	sprintf(buffer,"%d\n",rxData);
 	CDC_Transmit_FS(rxData, strlen(rxData));
 	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 }
