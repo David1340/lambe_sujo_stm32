@@ -65,6 +65,18 @@ void Error_Handler(void);
 #define IRQ_GPIO_Port GPIOA
 #define CE_Pin GPIO_PIN_0
 #define CE_GPIO_Port GPIOB
+#define DIP1_Pin GPIO_PIN_12
+#define DIP1_GPIO_Port GPIOB
+#define DIP2_Pin GPIO_PIN_13
+#define DIP2_GPIO_Port GPIOB
+#define DIP3_Pin GPIO_PIN_14
+#define DIP3_GPIO_Port GPIOB
+#define DIP4_Pin GPIO_PIN_15
+#define DIP4_GPIO_Port GPIOB
+#define DIP5_Pin GPIO_PIN_8
+#define DIP5_GPIO_Port GPIOA
+#define DIP6_Pin GPIO_PIN_9
+#define DIP6_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
