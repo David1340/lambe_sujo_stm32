@@ -59,12 +59,17 @@
  uint16_t oldpos = 0;
  extern int16_t speed;
  int indx = 0;
+ extern int position2;
+ uint16_t oldpos2 = 0;
+ extern int16_t speed2;
+ int indx2 = 0;
  uint8_t buffer [20];
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_FS;
 extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim4;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -193,13 +198,24 @@ void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
 	indx++;
+	indx2++;
 
 		if (indx == 500)
 		{
+			//indx = 0;
+
 			speed = ((position - oldpos)*2);  // speed in clicks/sec
 			oldpos = position;
 			indx = 0;
 			sprintf(buffer,"%d\n",speed);
+			CDC_Transmit_FS(buffer, strlen(buffer));
+		}
+		if (indx2 == 500)
+		{	//indx2 = 0;
+			speed2 = ((position2 - oldpos2)*2);  // speed in clicks/sec
+			oldpos2 = position2;
+			indx2 = 0;
+			sprintf(buffer,"%d\n",speed2);
 			CDC_Transmit_FS(buffer, strlen(buffer));
 		}
 
@@ -243,6 +259,20 @@ void TIM2_IRQHandler(void)
   /* USER CODE BEGIN TIM2_IRQn 1 */
 
   /* USER CODE END TIM2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM4 global interrupt.
+  */
+void TIM4_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM4_IRQn 0 */
+
+  /* USER CODE END TIM4_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim4);
+  /* USER CODE BEGIN TIM4_IRQn 1 */
+
+  /* USER CODE END TIM4_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
