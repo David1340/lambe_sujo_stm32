@@ -26,11 +26,13 @@
 #include "string.h"
 #include "usbd_cdc_if.h"
 #include "stdio.h"
+#include "stdbool.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 #define PAYLOAD				11
+#define byte_confirmacao		67
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -53,13 +55,19 @@ TIM_HandleTypeDef htim4;
 /* USER CODE BEGIN PV */
 nrf24 nrfRx;
 
-uint8_t rxAddr1[] = { 0xEA, 0xDD, 0xCC, 0xBB, 0xAA };
+uint8_t rxAddr1[] = { 0xEA, 0xDD, 0xCC, 0x20, 0x23 };
 uint8_t rxAddr2[] = { 0xEB, 0xDD, 0xCC, 0xBB, 0xAA };
 uint8_t rxAddr3[] = { 0xEC, 0xDD, 0xCC, 0xBB, 0xAA };
 uint8_t rxAddr4[] = { 0xED, 0xDD, 0xCC, 0xBB, 0xAA };
 uint8_t rxAddr5[] = { 0xEE, 0xDD, 0xCC, 0xBB, 0xAA };
 uint8_t rxAddr6[] = { 0xEF, 0xDD, 0xCC, 0xBB, 0xAA };
 uint8_t rxData[PAYLOAD];
+
+uint8_t id;
+uint8_t V_E;
+uint8_t V_D;
+bool sentido_e;
+bool sentido_d;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,6 +80,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 /* USER CODE BEGIN PFP */
 void readData(void);
+void quemSouEu(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -147,9 +156,9 @@ int main(void)
   nrf24_setPALevel(&nrfRx, high);
 
   nrf24_setRxPipe(&nrfRx, rxAddr1, 0, PAYLOAD);
-  nrf24_setRxPipe(&nrfRx, rxAddr2, 1, PAYLOAD);
-  nrf24_setRxPipe(&nrfRx, rxAddr4, 2, PAYLOAD);
-  nrf24_setRxPipe(&nrfRx, rxAddr3, 3, PAYLOAD);
+  //nrf24_setRxPipe(&nrfRx, rxAddr2, 1, PAYLOAD);
+  //nrf24_setRxPipe(&nrfRx, rxAddr4, 2, PAYLOAD);
+  //nrf24_setRxPipe(&nrfRx, rxAddr3, 3, PAYLOAD);
   nrf24_setMode(&nrfRx, rxMode);
   /* Configuração dos timers referentes aos encoders */
   HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_ALL);
@@ -160,10 +169,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
 
-  TIM1->CCR1 = 80;
-  TIM1->CCR2 = 40;
-  TIM3->CCR1 = 20;
-  TIM1->CCR3 = 20;
+  quemSouEu();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -173,10 +179,45 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  /*
-	for (int i = 0; i < 4; i++) {
-		if (isDataAvailable(&nrfRx, i) == 1) readData();
-	}*/
+
+	if (isDataAvailable(&nrfRx, 0) == 1){
+		readData();
+		/* checando se o dado é nosso */
+		if(rxData[0] == byte_confirmacao){
+			V_D = rxData[2*id -1];
+			V_E = rxData[2*id];
+
+			if(V_D >= 128){
+				V_D = V_D - 128;
+				sentido_d = 1;
+			}
+			if(V_E >= 128){
+				V_E = V_E - 128;
+				sentido_e = 1;
+			}
+			// devo usar: PWM FOWARD/SLOW DECAY AN1 = 1 e AN2 = PWM
+			//			  PWM REVERSE/SLOW DECAY AN1 = PWM e AN2 = 1
+			// nesse caso os canais de PWM que devem ser conectados aos pinos da ponte H.
+			// sendo TIM1_CH1 e TIM1_CH2 no AN1 e AN2 respectivamente (direito)
+			// e     TIM1_CH3 e TIM3-CH1 no BN1 e BN2 respectivamente (esquerdo)
+			// sendo sentido_x = 1 inverso e o sentido_x = 0 para frente.
+			if(sentido_d == 0){
+				TIM1->CCR1 = V_D;
+				TIM1->CCR2 = 100;
+			}else{
+				TIM1->CCR1 = 100;
+				TIM1->CCR2 = V_D;
+			}
+			if(sentido_e == 0){
+				TIM1->CCR3 = V_E;
+				TIM3->CCR1 = 100;
+			}else{
+				TIM1->CCR3 = 100;
+				TIM3->CCR1 = V_E;
+			}
+
+		}
+	}
   }
   /* USER CODE END 3 */
 }
@@ -563,8 +604,26 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void readData(void) {
 	nrf24_Receive(&nrfRx, rxData, PAYLOAD);
-	CDC_Transmit_FS(rxData, strlen(rxData));
+	//CDC_Transmit_FS(rxData, strlen(rxData));
 	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+}
+
+void quemSouEu(void){
+	//se 0 então o DIP está ativado
+	if(!HAL_GPIO_ReadPin(DIP1_GPIO_Port, DIP1_Pin)){
+		if(!HAL_GPIO_ReadPin(DIP2_GPIO_Port, DIP2_Pin)){
+			id = 1;
+		}else{
+			id = 5;
+		}
+
+	}else if(!HAL_GPIO_ReadPin(DIP2_GPIO_Port, DIP2_Pin)){
+		id = 2;
+	}else if(!HAL_GPIO_ReadPin(DIP3_GPIO_Port, DIP3_Pin)){
+		id = 3;
+	}else if(!HAL_GPIO_ReadPin(DIP4_GPIO_Port, DIP4_Pin)){
+		id = 4;
+	}
 }
 /* USER CODE END 4 */
 
