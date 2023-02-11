@@ -600,17 +600,17 @@ static void MX_TIM1_Init(void)
  8000462:	4b4a      	ldr	r3, [pc, #296]	; (800058c <MX_TIM1_Init+0x168>)
  8000464:	4a4a      	ldr	r2, [pc, #296]	; (8000590 <MX_TIM1_Init+0x16c>)
  8000466:	601a      	str	r2, [r3, #0]
-  htim1.Init.Prescaler = 9-1;
+  htim1.Init.Prescaler = 14-1;
  8000468:	4b48      	ldr	r3, [pc, #288]	; (800058c <MX_TIM1_Init+0x168>)
- 800046a:	2208      	movs	r2, #8
+ 800046a:	220d      	movs	r2, #13
  800046c:	605a      	str	r2, [r3, #4]
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
  800046e:	4b47      	ldr	r3, [pc, #284]	; (800058c <MX_TIM1_Init+0x168>)
  8000470:	2200      	movs	r2, #0
  8000472:	609a      	str	r2, [r3, #8]
-  htim1.Init.Period = 160-1;
+  htim1.Init.Period = 101-1;
  8000474:	4b45      	ldr	r3, [pc, #276]	; (800058c <MX_TIM1_Init+0x168>)
- 8000476:	229f      	movs	r2, #159	; 0x9f
+ 8000476:	2264      	movs	r2, #100	; 0x64
  8000478:	60da      	str	r2, [r3, #12]
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
  800047a:	4b44      	ldr	r3, [pc, #272]	; (800058c <MX_TIM1_Init+0x168>)
@@ -820,9 +820,9 @@ static void MX_TIM2_Init(void)
  80005b0:	4b21      	ldr	r3, [pc, #132]	; (8000638 <MX_TIM2_Init+0xa4>)
  80005b2:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
  80005b6:	601a      	str	r2, [r3, #0]
-  htim2.Init.Prescaler = 0;
+  htim2.Init.Prescaler = 4-1;
  80005b8:	4b1f      	ldr	r3, [pc, #124]	; (8000638 <MX_TIM2_Init+0xa4>)
- 80005ba:	2200      	movs	r2, #0
+ 80005ba:	2203      	movs	r2, #3
  80005bc:	605a      	str	r2, [r3, #4]
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
  80005be:	4b1e      	ldr	r3, [pc, #120]	; (8000638 <MX_TIM2_Init+0xa4>)
@@ -954,17 +954,17 @@ static void MX_TIM3_Init(void)
  800066c:	4b2c      	ldr	r3, [pc, #176]	; (8000720 <MX_TIM3_Init+0xe4>)
  800066e:	4a2d      	ldr	r2, [pc, #180]	; (8000724 <MX_TIM3_Init+0xe8>)
  8000670:	601a      	str	r2, [r3, #0]
-  htim3.Init.Prescaler = 9-1;
+  htim3.Init.Prescaler = 14-1;
  8000672:	4b2b      	ldr	r3, [pc, #172]	; (8000720 <MX_TIM3_Init+0xe4>)
- 8000674:	2208      	movs	r2, #8
+ 8000674:	220d      	movs	r2, #13
  8000676:	605a      	str	r2, [r3, #4]
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
  8000678:	4b29      	ldr	r3, [pc, #164]	; (8000720 <MX_TIM3_Init+0xe4>)
  800067a:	2200      	movs	r2, #0
  800067c:	609a      	str	r2, [r3, #8]
-  htim3.Init.Period = 160-1;
+  htim3.Init.Period = 101-1;
  800067e:	4b28      	ldr	r3, [pc, #160]	; (8000720 <MX_TIM3_Init+0xe4>)
- 8000680:	229f      	movs	r2, #159	; 0x9f
+ 8000680:	2264      	movs	r2, #100	; 0x64
  8000682:	60da      	str	r2, [r3, #12]
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
  8000684:	4b26      	ldr	r3, [pc, #152]	; (8000720 <MX_TIM3_Init+0xe4>)
@@ -1102,9 +1102,9 @@ static void MX_TIM4_Init(void)
  8000744:	4b20      	ldr	r3, [pc, #128]	; (80007c8 <MX_TIM4_Init+0xa0>)
  8000746:	4a21      	ldr	r2, [pc, #132]	; (80007cc <MX_TIM4_Init+0xa4>)
  8000748:	601a      	str	r2, [r3, #0]
-  htim4.Init.Prescaler = 0;
+  htim4.Init.Prescaler = 4-1;
  800074a:	4b1f      	ldr	r3, [pc, #124]	; (80007c8 <MX_TIM4_Init+0xa0>)
- 800074c:	2200      	movs	r2, #0
+ 800074c:	2203      	movs	r2, #3
  800074e:	605a      	str	r2, [r3, #4]
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
  8000750:	4b1d      	ldr	r3, [pc, #116]	; (80007c8 <MX_TIM4_Init+0xa0>)
