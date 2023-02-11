@@ -77,12 +77,10 @@ void readData(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint32_t counter = 0;
-uint16_t count = 0;
 uint16_t position = 0;
 int16_t speed = 0;
 
 uint32_t counter2 = 0;
-uint16_t count2 = 0;
 uint16_t position2 = 0;
 int16_t speed2 = 0;
 
@@ -91,12 +89,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	if (htim->Instance == TIM2)
 	{
 		counter = __HAL_TIM_GET_COUNTER(htim);
-		count = (int16_t)counter;
-		position = count/4;
+		position = (int16_t)counter;
 	}else if(htim->Instance == TIM4){
 		counter2 = __HAL_TIM_GET_COUNTER(htim);
-		count2 = (int16_t)counter2;
-		position2 = count2/4;
+		position2 = (int16_t)counter2;
 	}
 
 }
