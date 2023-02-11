@@ -47,7 +47,7 @@ SPI_HandleTypeDef hspi1;
 nrf24 nrfTx;
 
 uint8_t txAddr[] = { 0xEA, 0xDD, 0xCC, 0xBB, 0xAA };
-uint8_t txData[22] = "radio funciona!\n";
+uint8_t txData[11];
 
 /* USER CODE END PV */
 
