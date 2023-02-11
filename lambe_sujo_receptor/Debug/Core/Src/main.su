@@ -3,8 +3,8 @@
 ../Core/Src/main.c:192:6:SystemClock_Config	88	static
 ../Core/Src/main.c:239:13:MX_SPI1_Init	8	static
 ../Core/Src/main.c:277:13:MX_TIM1_Init	96	static
-../Core/Src/main.c:356:13:MX_TIM2_Init	56	static
-../Core/Src/main.c:405:13:MX_TIM3_Init	64	static
+../Core/Src/main.c:360:13:MX_TIM2_Init	56	static
+../Core/Src/main.c:409:13:MX_TIM3_Init	64	static
 ../Core/Src/main.c:468:13:MX_TIM4_Init	56	static
 ../Core/Src/main.c:517:13:MX_GPIO_Init	40	static
 ../Core/Src/main.c:563:6:readData	8	static
