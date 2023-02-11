@@ -1487,13 +1487,13 @@ void quemSouEu(void){
  80009a6:	4603      	mov	r3, r0
  80009a8:	2b00      	cmp	r3, #0
  80009aa:	d10f      	bne.n	80009cc <quemSouEu+0x34>
-		if(!HAL_GPIO_ReadPin(DIP2_GPIO_Port, DIP2_Pin)){
+		if(HAL_GPIO_ReadPin(DIP2_GPIO_Port, DIP2_Pin)){
  80009ac:	f44f 5100 	mov.w	r1, #8192	; 0x2000
  80009b0:	4819      	ldr	r0, [pc, #100]	; (8000a18 <quemSouEu+0x80>)
  80009b2:	f001 f9e1 	bl	8001d78 <HAL_GPIO_ReadPin>
  80009b6:	4603      	mov	r3, r0
  80009b8:	2b00      	cmp	r3, #0
- 80009ba:	d103      	bne.n	80009c4 <quemSouEu+0x2c>
+ 80009ba:	d003      	beq.n	80009c4 <quemSouEu+0x2c>
 			id = 1;
  80009bc:	4b17      	ldr	r3, [pc, #92]	; (8000a1c <quemSouEu+0x84>)
  80009be:	2201      	movs	r2, #1

@@ -611,7 +611,7 @@ void readData(void) {
 void quemSouEu(void){
 	//se 0 então o DIP está ativado
 	if(!HAL_GPIO_ReadPin(DIP1_GPIO_Port, DIP1_Pin)){
-		if(!HAL_GPIO_ReadPin(DIP2_GPIO_Port, DIP2_Pin)){
+		if(HAL_GPIO_ReadPin(DIP2_GPIO_Port, DIP2_Pin)){
 			id = 1;
 		}else{
 			id = 5;
