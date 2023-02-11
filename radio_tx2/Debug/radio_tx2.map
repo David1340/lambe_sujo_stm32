@@ -103,7 +103,7 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./Core/Src/main.o
  .data          0x0000000000000000        0x0 ./Core/Src/main.o
  .bss           0x0000000000000000        0x0 ./Core/Src/main.o
- .data.txData   0x0000000000000000       0x16 ./Core/Src/main.o
+ .bss.txData    0x0000000000000000        0xb ./Core/Src/main.o
  .group         0x0000000000000000        0xc ./Core/Src/nrf24l01.o
  .group         0x0000000000000000        0xc ./Core/Src/nrf24l01.o
  .group         0x0000000000000000        0xc ./Core/Src/nrf24l01.o
