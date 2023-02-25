@@ -32,7 +32,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 #define PAYLOAD				11
-#define byte_confirmacao		67
+#define byte_confirmacao		255
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -170,6 +170,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
 
   quemSouEu();
+  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -202,18 +203,18 @@ int main(void)
 			// e     TIM1_CH3 e TIM3-CH1 no BN1 e BN2 respectivamente (esquerdo)
 			// sendo sentido_x = 1 inverso e o sentido_x = 0 para frente.
 			if(sentido_d == 0){
-				TIM1->CCR1 = V_D;
+				TIM1->CCR1 = 100 -V_D;
 				TIM1->CCR2 = 100;
 			}else{
 				TIM1->CCR1 = 100;
-				TIM1->CCR2 = V_D;
+				TIM1->CCR2 = 100 -V_D;
 			}
 			if(sentido_e == 0){
-				TIM1->CCR3 = V_E;
+				TIM1->CCR3 = 100 -V_E;
 				TIM3->CCR1 = 100;
 			}else{
 				TIM1->CCR3 = 100;
-				TIM3->CCR1 = V_E;
+				TIM3->CCR1 = 100 -V_E;
 			}
 
 		}
