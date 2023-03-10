@@ -265,9 +265,9 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
 
   CDC_Transmit_FS(Buf,*Len);
-  nrf24_setMode(&nrfTx, txMode);
-	if (nrf24_Transmit(&nrfTx, Buf, sizeof(Buf)) == 1) {
-		nrf24_setMode(&nrfTx, standby);
+  //nrf24_setMode(&nrfTx, txMode);
+	if (nrf24_Transmit(&nrfTx, Buf, *Len) == 1) {
+		//nrf24_setMode(&nrfTx, standby);
 		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 	}
 

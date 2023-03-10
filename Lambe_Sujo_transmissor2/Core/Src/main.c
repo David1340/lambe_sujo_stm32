@@ -46,7 +46,7 @@ SPI_HandleTypeDef hspi1;
 /* USER CODE BEGIN PV */
 nrf24 nrfTx;
 
-uint8_t txAddr[] = { 0xEA, 0xDD, 0xCC, 0xBB, 0xAA };
+uint8_t txAddr[] = { 0xEA, 0xDD, 0xCC, 0x20, 0x23 };
 uint8_t txData[11];
 /* USER CODE END PV */
 
