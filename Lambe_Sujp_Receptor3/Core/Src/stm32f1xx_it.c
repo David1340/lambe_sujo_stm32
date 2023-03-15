@@ -24,8 +24,8 @@
 /* USER CODE BEGIN Includes */
 #include "string.h"
 #include "stdio.h"
-#include "usbd_cdc_if.h"
-#include "usb_device.h"
+//#include "usbd_cdc_if.h"
+//#include "usb_device.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -205,12 +205,12 @@ void SysTick_Handler(void)
 			speed = ((position - oldpos)*2);  // speed in clicks/sec
 			oldpos = position;
 			sprintf(buffer,"e1: %d\n",speed);
-			CDC_Transmit_FS(buffer, strlen(buffer));
+			//CDC_Transmit_FS(buffer, strlen(buffer));
 
 			speed2 = ((position2 - oldpos2)*2);  // speed in clicks/sec
 			oldpos2 = position2;
 			sprintf(buffer,"e2: %d\n",speed2);
-			CDC_Transmit_FS(buffer, strlen(buffer));
+			//CDC_Transmit_FS(buffer, strlen(buffer));
 
 			indx = 0;
 		}

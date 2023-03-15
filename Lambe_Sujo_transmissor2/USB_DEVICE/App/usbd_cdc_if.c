@@ -34,6 +34,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 extern nrf24 nrfTx;
+extern uint8_t txData[11];
 /* USER CODE END PV */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -265,11 +266,9 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
 
   CDC_Transmit_FS(Buf,*Len);
-  //nrf24_setMode(&nrfTx, txMode);
-	if (nrf24_Transmit(&nrfTx, Buf, *Len) == 1) {
-		//nrf24_setMode(&nrfTx, standby);
-		HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-	}
+  memset(txData,0,11);
+  memcpy(txData,Buf,*Len);
+
 
   return (USBD_OK);
   /* USER CODE END 6 */

@@ -24,6 +24,8 @@
 /* USER CODE BEGIN Includes */
 #include "nrf24l01.h"
 #include "usbd_cdc_if.h"
+
+#define confimacao_byte 255
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -112,7 +114,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+	  if(txData[0] == confimacao_byte){
+		if (nrf24_Transmit(&nrfTx, txData,11) == 1) {
+			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+			memset(txData,0,11);
+		}
 
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
