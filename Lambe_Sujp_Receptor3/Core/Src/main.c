@@ -171,6 +171,11 @@ int main(void)
 
   quemSouEu();
   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+
+	TIM1->CCR1 = 100;
+	TIM1->CCR2 = 100;
+	TIM1->CCR3 = 100;
+	TIM3->CCR2 = 100;
   /* USER CODE END 2 */
 
   /* Infinite loop */
